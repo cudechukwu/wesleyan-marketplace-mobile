@@ -54,7 +54,7 @@ export default function RootLayout() {
         <Stack.Screen name="screens/CreateListingScreen" options={{ title: 'New Listing' }} />
         <Stack.Screen name="screens/EditListingScreen" options={{ title: 'Edit Listing' }} />
         <Stack.Screen name="screens/LoginScreen" options={{ title: 'Login' }} />
-        <Stack.Screen name="screens/Registercreen" options={{ title: 'Register' }} />
+        <Stack.Screen name="screens/RegisterScreen" options={{ title: 'Register' }} />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />

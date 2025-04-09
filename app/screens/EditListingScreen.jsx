@@ -1,4 +1,3 @@
-// app/screens/EditListingScreen.jsx
 import React, { useState } from 'react';
 import {
   View,
@@ -18,7 +17,7 @@ const EditListingScreen = () => {
   const isDark = colorScheme === 'dark';
   const navigation = useNavigation();
   const route = useRoute();
-  const { id, item_name, description, price } = route.params; // passed in from previous screen
+  const { id, item_name, description, price } = route.params;
 
   const [name, setName] = useState(item_name);
   const [desc, setDesc] = useState(description);
@@ -36,13 +35,41 @@ const EditListingScreen = () => {
 
       if (response.data.status === 'success') {
         Alert.alert('Success', 'Listing updated!');
-        navigation.goBack(); // or navigate('ListingsScreen');
+        navigation.goBack();
       } else {
         setMessage(response.data.message || 'Update failed.');
       }
     } catch (err) {
       setMessage('Error updating listing');
     }
+  };
+
+  const handleDelete = () => {
+    Alert.alert(
+      'Delete Listing',
+      'Are you sure you want to delete this listing?',
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              const response = await api.post('/delete.php', { id });
+
+              if (response.data.status === 'success') {
+                Alert.alert('Deleted', 'Listing has been deleted.');
+                navigation.goBack();
+              } else {
+                setMessage(response.data.message || 'Delete failed.');
+              }
+            } catch (err) {
+              setMessage('Error deleting listing');
+            }
+          },
+        },
+      ]
+    );
   };
 
   return (
@@ -69,7 +96,13 @@ const EditListingScreen = () => {
         keyboardType="numeric"
         style={styles.input}
       />
+
       <Button title="Update Listing" onPress={handleUpdate} color="#4a90e2" />
+
+      <View style={{ marginTop: 10 }}>
+        <Button title="Delete Listing" onPress={handleDelete} color="#ff3b30" />
+      </View>
+
       {message ? <Text style={styles.message}>{message}</Text> : null}
     </LinearGradient>
   );
