@@ -41,16 +41,9 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
-## If you want a fresh project
+## Important Note: 
 
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-
-Important Note: I was unable to test the app on an android environment since android studio didnt respond on my laptop despite deleting and reinstalling several times (I went to TA Dominik Dadak to see if he could help but unfortunately couldn't).
+I was unable to test the app on an android environment since android studio didnt respond on my laptop despite deleting and reinstalling several times (I went to TA Dominik Dadak to see if he could help but unfortunately couldn't).
 Project works perfectly on IOS, so if there is an issue testing on android let me know.
 
 Recording of Mobile Testing:
