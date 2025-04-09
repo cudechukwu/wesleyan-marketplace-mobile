@@ -15,6 +15,8 @@ The Wesleyan Marketplace is a campus-based online platform designed to facilitat
 - Deborah-Gifty Afia Lalude (@dlalude)
 - Chukwudi (@Chukwudi)
 
+Chukwudi | 100%
+
 🚀 How to Run the Project 
 Viewing the Deployed Site
 The project is deployed on GitHub Pages and can be accessed at:
