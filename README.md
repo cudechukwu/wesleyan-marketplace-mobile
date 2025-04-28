@@ -143,3 +143,9 @@ Destroys the current session and redirects to login.
   "id": 3
 }
 ```
+
+<img width="1440" alt="postScreenshot" src="https://github.com/user-attachments/assets/374cbd93-8ab5-41eb-9b4e-59e060bf445f" />
+**********
+<img width="1440" alt="Screenshot 2025-04-28 at 11 28 23" src="https://github.com/user-attachments/assets/44a01055-f162-41c8-92dd-e03f04069313" />
+
+
