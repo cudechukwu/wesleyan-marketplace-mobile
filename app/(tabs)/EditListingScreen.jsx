@@ -8,15 +8,17 @@ import {
   useColorScheme,
   Alert,
 } from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 import api from '../../utils/api';
 import { LinearGradient } from 'expo-linear-gradient';
 
 const EditListingScreen = () => {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
-  const navigation = useNavigation();
   const route = useRoute();
+  const router = useRouter();
+
   const { id, item_name, description, price } = route.params;
 
   const [name, setName] = useState(item_name);
@@ -35,7 +37,7 @@ const EditListingScreen = () => {
 
       if (response.data.status === 'success') {
         Alert.alert('Success', 'Listing updated!');
-        navigation.goBack();
+        router.replace('/ListingsScreen');
       } else {
         setMessage(response.data.message || 'Update failed.');
       }
@@ -59,7 +61,7 @@ const EditListingScreen = () => {
 
               if (response.data.status === 'success') {
                 Alert.alert('Deleted', 'Listing has been deleted.');
-                navigation.goBack();
+                router.replace('/ListingsScreen');
               } else {
                 setMessage(response.data.message || 'Delete failed.');
               }
@@ -81,13 +83,15 @@ const EditListingScreen = () => {
         value={name}
         onChangeText={setName}
         style={styles.input}
+        placeholderTextColor={isDark ? '#aaa' : '#555'}
       />
       <TextInput
         placeholder="Description"
         value={desc}
         onChangeText={setDesc}
-        style={styles.input}
+        style={[styles.input, styles.textarea]}
         multiline
+        placeholderTextColor={isDark ? '#aaa' : '#555'}
       />
       <TextInput
         placeholder="Price"
@@ -95,6 +99,7 @@ const EditListingScreen = () => {
         onChangeText={setCost}
         keyboardType="numeric"
         style={styles.input}
+        placeholderTextColor={isDark ? '#aaa' : '#555'}
       />
 
       <Button title="Update Listing" onPress={handleUpdate} color="#4a90e2" />
@@ -111,7 +116,7 @@ const EditListingScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 24,
     justifyContent: 'center',
   },
   title: {
@@ -128,10 +133,14 @@ const styles = StyleSheet.create({
     marginBottom: 14,
     fontSize: 16,
   },
+  textarea: {
+    height: 100,
+    textAlignVertical: 'top',
+  },
   message: {
-    marginTop: 10,
+    marginTop: 12,
     textAlign: 'center',
-    color: 'white',
+    color: '#fff',
     fontWeight: 'bold',
   },
 });

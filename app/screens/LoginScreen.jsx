@@ -8,17 +8,16 @@ import {
   TouchableOpacity,
   useColorScheme,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import AsyncStorage from '@react-native-async-storage/async-storage'; // ✅ Add this
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router'; // ✅ useRouter instead of useNavigation
 import api from '../../utils/api';
 
 const LoginScreen = () => {
-  const navigation = useNavigation();
+  const router = useRouter(); // ✅ for expo-router navigation
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
@@ -32,11 +31,10 @@ const LoginScreen = () => {
       setMessage(response.data.message);
 
       if (response.data.status === 'success') {
-        // ✅ Store username for future API use
         await AsyncStorage.setItem('username', username);
 
-        // ✅ Navigate to tab with persistent bottom tabs
-        navigation.navigate('screens/ListingsScreen');
+        // ✅ Replace stack and go into tab layout
+        router.replace('/ListingsScreen');
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -45,10 +43,7 @@ const LoginScreen = () => {
   };
 
   return (
-    <LinearGradient
-      colors={['#ffd3a5', '#fd6585']}
-      style={styles.gradient}
-    >
+    <LinearGradient colors={['#ffd3a5', '#fd6585']} style={styles.gradient}>
       <View style={styles.container}>
         <Text style={styles.title}>Login</Text>
         <TextInput
@@ -69,7 +64,7 @@ const LoginScreen = () => {
         </View>
         {message ? <Text style={styles.message}>{message}</Text> : null}
 
-        <TouchableOpacity onPress={() => navigation.navigate('screens/RegisterScreen')}>
+        <TouchableOpacity onPress={() => router.push('/screens/RegisterScreen')}>
           <Text style={styles.link}>Don’t have an account? Register</Text>
         </TouchableOpacity>
       </View>

@@ -10,9 +10,10 @@ import {
   Platform,
   ScrollView,
   Alert,
+  TouchableOpacity,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
+import { useRouter } from 'expo-router';
 import api from '../../utils/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -24,7 +25,7 @@ const CreateListingScreen = () => {
   const [message, setMessage] = useState('');
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
-  const navigation = useNavigation();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUsername = async () => {
@@ -67,7 +68,7 @@ const CreateListingScreen = () => {
 
       if (response.data.status === 'success') {
         Alert.alert('Success', 'Listing created!');
-        navigation.navigate('screens/ListingsScreen');
+        router.replace('/ListingsScreen');
       } else {
         Alert.alert('Error', response.data.message || 'Failed to create listing.');
       }
@@ -84,6 +85,12 @@ const CreateListingScreen = () => {
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}
       >
         <ScrollView contentContainerStyle={styles.inner}>
+          {/* 🔙 Back Button */}
+          <TouchableOpacity onPress={() => router.replace('/ListingsScreen')} style={styles.backButton}>
+          <Text style={styles.backButtonText}>← Back to Listings</Text>
+          </TouchableOpacity>
+
+
           <Text style={[styles.title, { color: isDark ? '#fff' : '#000' }]}>Create New Listing</Text>
 
           <TextInput
@@ -131,7 +138,14 @@ const styles = StyleSheet.create({
   },
   inner: {
     padding: 24,
-    justifyContent: 'center',
+    paddingTop: 48,
+  },
+  backButton: {
+    marginBottom: 12,
+  },
+  backButtonText: {
+    fontSize: 16,
+    color: '#fff',
   },
   title: {
     fontSize: 28,

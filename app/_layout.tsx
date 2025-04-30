@@ -13,27 +13,30 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [ready, setReady] = useState(false); // ⏳ wait for login check
 
   useEffect(() => {
     const checkLogin = async () => {
       const user = await AsyncStorage.getItem('username');
       setIsLoggedIn(!!user);
+      setReady(true);
     };
     checkLogin();
   }, []);
 
   useEffect(() => {
-    if (loaded) {
+    if (loaded && ready) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, ready]);
 
-  if (!loaded) {
+  if (!loaded || !ready) {
     return null;
   }
 
@@ -48,13 +51,6 @@ export default function RootLayout() {
             <Stack.Screen name="screens/RegisterScreen" options={{ title: 'Register' }} />
           </>
         )}
-
-        {/* Additional Screens accessible from anywhere */}
-        <Stack.Screen name="screens/ListingsScreen" options={{ title: 'Listings' }} />
-        <Stack.Screen name="screens/CreateListingScreen" options={{ title: 'New Listing' }} />
-        <Stack.Screen name="screens/EditListingScreen" options={{ title: 'Edit Listing' }} />
-        <Stack.Screen name="screens/LoginScreen" options={{ title: 'Login' }} />
-        <Stack.Screen name="screens/RegisterScreen" options={{ title: 'Register' }} />
         <Stack.Screen name="+not-found" />
       </Stack>
       <StatusBar style="auto" />
