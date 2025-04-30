@@ -1,9 +1,29 @@
 import { Tabs } from 'expo-router';
+import { Platform } from 'react-native';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { HapticTab } from '@/components/HapticTab';
+import TabBarBackground from '@/components/ui/TabBarBackground';
 
 export default function TabsLayout() {
+  const colorScheme = useColorScheme();
+
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        headerShown: false,
+        tabBarButton: HapticTab,
+        tabBarBackground: TabBarBackground,
+        tabBarStyle: Platform.select({
+          ios: {
+            position: 'absolute',
+          },
+          default: {},
+        }),
+      }}
+    >
       {/* Visible tabs */}
       <Tabs.Screen
         name="index"
@@ -27,7 +47,7 @@ export default function TabsLayout() {
         }}
       />
 
-      {/* Hidden routes — they still render inside the tab layout, so tab bar stays */}
+      {/* Hidden but routable screens */}
       <Tabs.Screen name="ChatScreen" options={{ href: null }} />
       <Tabs.Screen name="ListingsScreen" options={{ href: null }} />
       <Tabs.Screen name="CreateListingScreen" options={{ href: null }} />
