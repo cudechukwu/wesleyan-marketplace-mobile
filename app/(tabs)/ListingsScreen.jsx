@@ -9,10 +9,11 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import api from '../../utils/api';
+import { useRouter } from 'expo-router'; // ✅ useRouter instead of useNavigation
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../../utils/api';
 
 const ListingsScreen = () => {
   const [listings, setListings] = useState([]);
@@ -22,9 +23,8 @@ const ListingsScreen = () => {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
   const screen = Dimensions.get('window');
-  const navigation = useNavigation();
+  const router = useRouter(); // ✅ Correct way
 
-  // Fetch logged-in username
   useEffect(() => {
     const fetchUsername = async () => {
       const storedUser = await AsyncStorage.getItem('username');
@@ -33,7 +33,6 @@ const ListingsScreen = () => {
     fetchUsername();
   }, []);
 
-  // Refresh listings on screen focus
   useFocusEffect(
     useCallback(() => {
       const fetchListings = async () => {
@@ -62,12 +61,7 @@ const ListingsScreen = () => {
         <TouchableOpacity
           style={styles.editButton}
           onPress={() =>
-            navigation.navigate('screens/EditListingScreen', {
-              id: item.id,
-              item_name: item.item_name,
-              description: item.description,
-              price: item.price,
-            })
+            router.push(`/EditListingScreen?id=${item.id}&item_name=${item.item_name}&description=${item.description}&price=${item.price}`)
           }
         >
           <Text style={styles.editButtonText}>Edit</Text>
@@ -87,7 +81,7 @@ const ListingsScreen = () => {
     >
       <TouchableOpacity
         style={styles.addButton}
-        onPress={() => navigation.navigate('screens/CreateListingScreen')}
+        onPress={() => router.push('/CreateListingScreen')}
       >
         <Text style={styles.addButtonText}>+ Add New Listing</Text>
       </TouchableOpacity>
