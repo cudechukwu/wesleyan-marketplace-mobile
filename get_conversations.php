@@ -3,7 +3,6 @@ session_start();
 include 'db.php';
 header('Content-Type: application/json');
 
-// 🔒 Ensure user is logged in
 if (!isset($_SESSION["username"])) {
     echo json_encode([]);
     exit();
@@ -11,10 +10,13 @@ if (!isset($_SESSION["username"])) {
 
 $username = $_SESSION["username"];
 
-// 🧠 Get unique conversation partners (either sender or receiver)
+// 🧠 Get unique conversation partners
 $sql = "
     SELECT
-        IF(sender_username = ?, receiver_username, sender_username) AS chat_user,
+        CASE
+            WHEN sender_username = ? THEN receiver_username
+            ELSE sender_username
+        END AS chat_user,
         MAX(timestamp) AS last_time
     FROM messages
     WHERE sender_username = ? OR receiver_username = ?
@@ -32,7 +34,6 @@ $conversations = [];
 while ($row = $result->fetch_assoc()) {
     $chatUser = $row['chat_user'];
 
-    // Get last message with that user
     $lastMsgStmt = $conn->prepare("
         SELECT sender_username, message, timestamp
         FROM messages
