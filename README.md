@@ -22,6 +22,36 @@ Viewing the Deployed Site
 The project is deployed on GitHub Pages and can be accessed at:
 (https://dlalude.github.io/wesleyan-marketplace/)
 
+## 🧪 Homework 4: Unit Testing (PHP Backend)
+
+### ✅ Unit Testing Steps
+
+1. **Install PHPUnit (if not already installed):**
+   - Locally:  
+     ```bash
+     composer require --dev phpunit/phpunit
+     ```
+   - Or globally:  
+     ```bash
+     brew install phpunit
+     ```
+
+2. **Save your test file:**  
+   Save the test code as `BackendTest.php` inside the `tests/` directory.
+
+3. **Navigate to the project folder in terminal:**
+   ```bash
+   cd /path/to/your/project
+
+4. **Run the tests**
+   - If composer:  
+     ```bash
+     ./vendor/bin/phpunit tests/BackendTest.php
+     ```
+   - If globally:  
+     ```bash
+     phpunit tests/BackendTest.php
+     ```
 
 Homework 3 instructions.. 
 
