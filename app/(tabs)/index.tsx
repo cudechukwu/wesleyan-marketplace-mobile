@@ -1,21 +1,50 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   Button,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
 
 export default function HomeScreen() {
-  const navigation = useNavigation();
+  const [username, setUsername] = useState('');
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkUser = async () => {
+      const user = await AsyncStorage.getItem('username');
+      if (user) {
+        setUsername(user);
+      }
+    };
+    checkUser();
+  }, []);
+
+  if (username) {
+    return (
+      <LinearGradient colors={['#ffd3a5', '#fd6585']} style={styles.background}>
+        <View style={styles.overlay}>
+          <Text style={styles.title}>Welcome back, {username}!</Text>
+          <Text style={styles.subtitle}>
+            Browse listings, message sellers, and manage your posts.
+          </Text>
+          <View style={styles.buttonContainer}>
+            <Button
+              title="Go to Listings"
+              onPress={() => router.push('/ListingsScreen')}
+              color="#fff"
+            />
+          </View>
+        </View>
+      </LinearGradient>
+    );
+  }
 
   return (
-    <LinearGradient
-      colors={['#ffd3a5', '#fd6585']}
-      style={styles.background}
-    >
+    <LinearGradient colors={['#ffd3a5', '#fd6585']} style={styles.background}>
       <View style={styles.overlay}>
         <Text style={styles.title}>Wesleyan Marketplace</Text>
         <Text style={styles.subtitle}>
@@ -24,7 +53,7 @@ export default function HomeScreen() {
         <View style={styles.buttonContainer}>
           <Button
             title="Get Started / Login"
-            onPress={() => navigation.navigate('screens/LoginScreen')}
+            onPress={() => router.push('/screens/LoginScreen')}
             color="#fff"
           />
         </View>

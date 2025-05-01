@@ -23,17 +23,18 @@ const LoginScreen = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await api.post('/login.php', {
-        username,
-        password,
-      });
-
+      const response = await api.post(
+        '/login.php',
+        { username, password },
+        { withCredentials: true } // ✅ send cookies to establish session
+      );
+  
       setMessage(response.data.message);
-
+  
       if (response.data.status === 'success') {
         await AsyncStorage.setItem('username', username);
-
-        // ✅ Replace stack and go into tab layout
+  
+        // ✅ Navigate into tab layout
         router.replace('/ListingsScreen');
       }
     } catch (error) {
@@ -41,6 +42,7 @@ const LoginScreen = () => {
       setMessage('Error logging in');
     }
   };
+  
 
   return (
     <LinearGradient colors={['#ffd3a5', '#fd6585']} style={styles.gradient}>
