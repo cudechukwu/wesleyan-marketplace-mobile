@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Tabs, Redirect } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { Colors } from '@/constants/Colors';
+import { useColorScheme } from '@/hooks/useColorScheme';
+import { HapticTab } from '@/components/HapticTab';
+import TabBarBackground from '@/components/ui/TabBarBackground';
 
 export default function TabsLayout() {
   const [initialRoute, setInitialRoute] = useState('index'); // default
