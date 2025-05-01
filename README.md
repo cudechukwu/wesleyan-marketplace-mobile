@@ -52,6 +52,33 @@ The project is deployed on GitHub Pages and can be accessed at:
      ```bash
      phpunit tests/BackendTest.php
      ```
+## 🧪 Problem 2 – Using AI to Write Tests
+
+I used ChatGPT as a tool to help design and write my PHPUnit test cases. To do this, I first provided the AI with a detailed description of my project, including the structure of the backend and the purpose of key files like `register.php`, `login.php`, and `listings.php`.
+
+Then I asked:
+
+> “Can you write PHPUnit tests to check if these endpoints work correctly?”
+
+The AI returned well-structured test functions that served as a solid foundation. I then adapted the generated tests to match my specific implementation — including dynamically generated test users — and refined the logic to ensure compatibility with my backend responses.
+
+---
+
+### 🔁 How to Reproduce
+
+You can follow the same steps:
+
+1. Visit [chat.openai.com](https://chat.openai.com)
+2. Use this prompt:
+
+    ```
+    Write PHPUnit tests for a PHP backend that includes login, registration, and listing endpoints.
+    ```
+
+3. Provide your specific API structure (e.g., expected requests and responses)
+4. Copy, adapt, and refine the generated test code into your project
+
+
 
 Homework 3 instructions.. 
 
