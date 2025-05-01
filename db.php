@@ -1,5 +1,6 @@
 <?php
-$host = "localhost";
+$host = "127.0.0.1";
+
 $user = "root";         // default user for XAMPP
 $pass = "";             // default has no password
 $dbname = "app_db"; // use the name of your local database
