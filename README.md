@@ -52,6 +52,8 @@ The project is deployed on GitHub Pages and can be accessed at:
      ```bash
      phpunit tests/BackendTest.php
      ```
+     <img width="653" alt="Screenshot 2025-05-02 at 09 26 48" src="https://github.com/user-attachments/assets/27a79986-de22-4e7d-8460-eb1a2bc1defc" />
+
 ## 🧪 Problem 2 – Using AI to Write Tests
 
 I used ChatGPT as a tool to help design and write my PHPUnit test cases. To do this, I first provided the AI with a detailed description of my project, including the structure of the backend and the purpose of key files like `register.php`, `login.php`, and `listings.php`.
@@ -80,7 +82,7 @@ You can follow the same steps:
 
 
 
-Homework 3 instructions.. 
+Running App instructions.. 
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
@@ -98,7 +100,9 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    ```bash
     npx expo start
    ```
+4. Copy all backend (php files) to a different folder i.e marketplace-backend then move to xamp
 
+5. 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
 
 ## Important Note: 
@@ -106,100 +110,10 @@ You can start developing by editing the files inside the **app** directory. This
 I was unable to test the app on an android environment since android studio didnt respond on my laptop despite deleting and reinstalling several times (I went to TA Dominik Dadak to see if he could help but unfortunately couldn't).
 Project works perfectly on IOS, so if there is an issue testing on android let me know.
 
-Recording of Mobile Testing:
-https://drive.google.com/file/d/1ZWHKpTALnzXljzibS1D7--rZl2_xZEvF/view?usp=sharing
+### Recording of Mobile Testing (updated HW4):
+## https://drive.google.com/file/d/1s8yz90TsYFMsh-k6-i4NYqdF-0tpYouv/view?usp=sharing
 
-## 📡 REST API
 
-This section documents the REST API endpoints for the Wesleyan Marketplace backend (PHP + MySQL).
-
----
-
-### 🧾 Authentication
-
-#### `POST /login.php` — Log in a user  
-**Request Body:**
-```json
-{
-  "username": "johndoe",
-  "password": "securepassword"
-}
-```
-
----
-
-#### `POST /register.php` — Register a new user  
-**Request Body:**
-```json
-{
-  "username": "janedoe",
-  "password": "longsecurepassword",
-  "confirm_password": "longsecurepassword"
-}
-```
-
----
-
-#### `GET /logout.php` — Log out user  
-Destroys the current session and redirects to login.
-
----
-
-### 📦 Listings
-
-#### `GET /listings.php` — Fetch all listings  
-**Success Response:**
-```json
-{
-  "status": "success",
-  "data": [
-    {
-      "id": 1,
-      "item_name": "Desk",
-      "description": "Wooden desk",
-      "price": 50.00,
-      "username": "johndoe"
-    },
-    ...
-  ]
-}
-```
-
----
-
-#### `POST /create.php` — Create a new listing  
-**Request Body:**
-```json
-{
-  "username": "johndoe",
-  "item_name": "Chair",
-  "description": "Black plastic chair",
-  "price": 20.00
-}
-```
-
----
-
-#### `POST /update.php` — Update a listing (owner only)  
-**Request Body:**
-```json
-{
-  "id": 3,
-  "item_name": "Lamp",
-  "description": "New desk lamp",
-  "price": 12.99
-}
-```
-
----
-
-#### `POST /delete.php` — Delete a listing (owner only)  
-**Request Body:**
-```json
-{
-  "id": 3
-}
-```
 
 <img width="1440" alt="postScreenshot" src="https://github.com/user-attachments/assets/374cbd93-8ab5-41eb-9b4e-59e060bf445f" />
 **********
