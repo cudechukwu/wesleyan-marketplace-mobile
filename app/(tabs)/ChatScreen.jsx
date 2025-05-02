@@ -20,11 +20,22 @@ export default function ChatScreen() {
 
   useEffect(() => {
     fetch(`http://localhost:8000/get_messages.php?user=${recipient}`, {
-      credentials: 'include',
-    })
-      .then(res => res.json())
-      .then(data => setMessages(data))
-      .catch(err => console.error('Error fetching messages:', err));
+      credentials: 'include', // ✅ this line enables the session cookie
+    })    
+      .then(async res => {
+        const contentType = res.headers.get('content-type');
+        if (res.ok && contentType && contentType.includes('application/json')) {
+          return res.json();
+        } else {
+          const raw = await res.text();
+          throw new Error(`Invalid JSON response: ${raw}`);
+        }
+      })
+      .then(data => setMessages(Array.isArray(data) ? data : []))
+      .catch(err => {
+        console.error('Error fetching messages:', err);
+        setMessages([]);
+      });
   }, [recipient]);
 
   const sendMessage = () => {
@@ -68,24 +79,26 @@ export default function ChatScreen() {
       <ScrollView
         ref={scrollViewRef}
         contentContainerStyle={styles.messagesContainer}
-        onContentSizeChange={() => {
-          if (scrollViewRef.current) {
-            scrollViewRef.current.scrollToEnd({ animated: true });
-          }
-        }}
+        onContentSizeChange={() =>
+          scrollViewRef.current?.scrollToEnd({ animated: true })
+        }
       >
-        {messages.map((msg, idx) => (
-          <View
-            key={idx}
-            style={[
-              styles.message,
-              msg.from === 'me' ? styles.myMessage : styles.theirMessage
-            ]}
-          >
-            <Text style={styles.messageText}>{msg.message}</Text>
-            <Text style={styles.timestamp}>{formatTime(msg.timestamp)}</Text>
-          </View>
-        ))}
+        {messages.length === 0 ? (
+          <Text style={styles.noMessages}>No messages yet. Start the conversation!</Text>
+        ) : (
+          messages.map((msg, idx) => (
+            <View
+              key={idx}
+              style={[
+                styles.message,
+                msg.from === 'me' ? styles.myMessage : styles.theirMessage
+              ]}
+            >
+              <Text style={styles.messageText}>{msg.message}</Text>
+              <Text style={styles.timestamp}>{formatTime(msg.timestamp)}</Text>
+            </View>
+          ))
+        )}
       </ScrollView>
 
       <View style={styles.inputContainer}>
@@ -113,6 +126,7 @@ const styles = StyleSheet.create({
   messagesContainer: {
     paddingHorizontal: 16,
     paddingVertical: 10,
+    flexGrow: 1,
   },
   message: {
     maxWidth: '80%',
@@ -136,6 +150,12 @@ const styles = StyleSheet.create({
     color: '#666',
     marginTop: 4,
     textAlign: 'right',
+  },
+  noMessages: {
+    textAlign: 'center',
+    color: '#aaa',
+    marginTop: 20,
+    fontStyle: 'italic',
   },
   inputContainer: {
     flexDirection: 'row',
